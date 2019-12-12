@@ -1,0 +1,168 @@
+<html>
+
+<head>
+	<link rel="apple-touch-icon" sizes="180x180" href="./asset/favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./asset/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./asset/favicon/favicon-16x16.png">
+	<link rel="manifest" href="./asset/favicon/site.webmanifest">
+	<link rel="mask-icon" href="./asset/favicon/safari-pinned-tab.svg" color="#5bbad5">
+	<link href="./asset/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="bg"></div>
+
+	<div class="main tableLogin" style="display:none;background-color:#E6ECED;" id="login">
+		<div>
+
+			<img src="https://bo.lqxpay.com/static/img/logo_colored.fw.png" width="252" height="61"><br />
+			<center><span style="font-family:Verdana, Geneva, sans-serif;font-size:12px">Integration kit example</span>
+			</center>
+			<br />
+			<br />
+		</div>
+		<table>
+			<tr>
+				<td><span style="font-family:Verdana, Geneva, sans-serif;font-size:12px">Email:</span></td>
+				<td><input type="text" id="email" style="width:150px"></td>
+			</tr>
+			<tr>
+				<td><span style="font-family:Verdana, Geneva, sans-serif;font-size:12px">Password:</span></td>
+				<td><input type="password" id="password" style="width:150px"></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="right"><br /><input type="button" value="login" onclick="login()"></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="main" style="display:none;" id="main">
+		<div style="text-center">
+			<center>
+				<img src="https://bo.lqxpay.com/static/img/logo_white.fw.png" width="252" height="61">
+				<center><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Integration kit
+						example<br /><br /><br /><span id="userName"></span></span></center>
+			</center>
+			<br />
+			<br />
+		</div>
+		<div id="receipt">
+			<table cellpadding="100">
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Receipt
+							name:</span></td>
+					<td><input type="text" id="name" style="width:130px"></td>
+				</tr>
+				<tr>
+					<td><span
+							style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Description:</span>
+					</td>
+					<td><textarea rows="5" id="description" style="width:130px"></textarea> </td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">To:</span></td>
+					<td><input type="text" id="to" style="width:130px"></td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Type:</span>
+					</td>
+					<td>
+						<select id="typeSelect" tabindex="2" style="width:130px">
+							<option value="Service">Service</option>
+							<option value="Product">Product</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><span
+							style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Currency:</span>
+					</td>
+					<td>
+						<select id="currency" tabindex="2" style="width:130px">
+							<option value="usd">usd</option>
+							<option value="brl">brl</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept LQX
+							?</span></td>
+					<td class="right"><input type="checkbox" id="acceptLQX"></td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept Bitcoin
+							?</span></td>
+					<td class="right"><input type="checkbox" id="acceptBTC"></td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept USDT
+							?</span></td>
+					<td class="right"><input type="checkbox" id="acceptUSDT"></td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept EURT
+							?</span></td>
+					<td class="right"><input type="checkbox" id="acceptEURT"></td>
+				</tr>
+				<tr>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Aceitar Boleto
+							?</span></td>
+					<td class="right"><input type="checkbox" id="acceptPaymentSlip"></td>
+				</tr>
+			</table>
+			<br />
+			<br />
+			<br />
+		</div>
+
+		<form name="form">
+			<input class="textview" type="text" name="textview" id="totalAmount">
+		</form>
+		<table>
+			<tr>
+				<td><input class="button" type="button" value="C" onclick="c()"></td>
+				<td><input class="button" type="button" value=" "></td>
+				<td><input class="button" type="button" value=" "></td>
+				<td><input class="button" type="button" value="DEL" onclick="del()"></td>
+			</tr>
+			<tr>
+				<td><input class="button" type="button" value="7" onclick="insert(7)"></td>
+				<td><input class="button" type="button" value="8" onclick="insert(8)"></td>
+				<td><input class="button" type="button" value="9" onclick="insert(9)"></td>
+				<td><input class="button" type="button" value=" "></td>
+			</tr>
+			<tr>
+				<td><input class="button" type="button" value="4" onclick="insert(4)"></td>
+				<td><input class="button" type="button" value="5" onclick="insert(5)"></td>
+				<td><input class="button" type="button" value="6" onclick="insert(6)"></td>
+				<td><input class="button" type="button" value=" "></td>
+			</tr>
+			<tr>
+				<td><input class="button" type="button" value="1" onclick="insert(1)"></td>
+				<td><input class="button" type="button" value="2" onclick="insert(2)"></td>
+				<td><input class="button" type="button" value="3" onclick="insert(3)"></td>
+				<td><input class="button" type="button" value=" "></td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					 <input class="button" type="button" style="width:165" value="0" onclick="insert(0)">
+				</td>
+				<td>
+					<input class="button" type="button" value="." onclick="insert('.')">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4"><input class="button" type="button" onclick="openScanMultiCard()" style="width:222" value="Pay with Multicard"></td>
+			</tr>
+			<tr>
+				<td colspan="4"><input class="button" type="button" style="width:222" onclick="generatePayment();" value="Generate payment"></td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script src="./asset/js/jquery.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="./asset/js/jquery.maskMoney.min.js"></script>
+<script src="./asset/js/moment.min.js"></script>
+<script src="./asset/js/LQXPay.js"></script>
+</html>

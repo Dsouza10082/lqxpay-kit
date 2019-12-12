@@ -1,0 +1,129 @@
+<html>
+  <head>
+        <link rel="apple-touch-icon" sizes="180x180" href="./asset/favicon/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="./asset/favicon/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="./asset/favicon/favicon-16x16.png">
+		<link rel="manifest" href="./asset/favicon/site.webmanifest">
+		<link rel="mask-icon" href="./asset/favicon/safari-pinned-tab.svg" color="#5bbad5">
+	    <link href="./asset/css/style.css" rel="stylesheet">
+	<style>
+	   *{
+	      margin:0;
+		  padding:0;
+	   }
+	   
+	   .button {
+	      width:65;
+		  height:45;
+		  font-size:25;
+		  margin:2;
+		  cursor:pointer;
+		  background:#E6ECED;
+		  border: none;
+          color: #060B4D;
+          text-align: center;
+	   }
+	   
+	   .textview {
+	       width:222;
+		   margin:5;
+		   padding:5;
+		   font-size:25;
+		   font-family:Courier New;
+	   }
+	   
+	   .main {
+	       position: absolute;
+		   top:50%;
+		   left:50%;
+		   transform: translateX(-50%) translateY(-50%);
+	   }
+	   
+	   .bg {
+	       background: linear-gradient(to left,rgb(6, 31, 78),rgb(14, 88, 172));
+		   height: 100%;
+	   }
+	   
+	   .tableLogin {
+		  padding: 15px;
+		  text-align: left;
+		}
+		
+		.right {
+		  text-align: right;
+		  margin-top: 10px;
+		}
+		
+		.center {
+		  text-align: center;
+		}
+	   
+	</style>
+  </head>
+  <body>
+    <div class="bg"></div>
+	
+    <div class="main" id="main">
+	    <div style="text-center">
+			<center>
+			   <img src="https://bo.lqxpay.com/static/img/logo_white.fw.png" width="252" height="61">
+			   <center><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Integration example kit<br/><br/>Scan Multicard<br/><br/></span></center> 
+			</center>
+			<br/>
+         <div>
+             <video id="video" width="250" height="250"></video><br/>
+            
+         </div>  
+         <script type="text/javascript" src="./asset/js/qrlib.min.js"></script>
+         <script type="text/javascript">
+
+             let frontCam;
+             let backCam;
+             let videoInputDevices;
+             let codeReader;
+             let buttonFront = '<button onClick="activateFrontCam();"  class="btn btn-primary" type="button">Change to front cam</button>'; 
+             let buttonBack = '<button onClick="activateBackCam();"  class="btn btn-primary" type="button">Change to back cam</button>';
+             let defaultCam;
+             
+             window.addEventListener('load', async () => {
+
+                 codeReader = new ZXing.BrowserMultiFormatReader();
+                 videoInputDevices = await codeReader.getVideoInputDevices();
+
+                 if (videoInputDevices && videoInputDevices.length > 1) {
+                     frontCam = videoInputDevices[0].deviceId;
+                     backCam = videoInputDevices[1].deviceId;
+                     defaultCam = backCam;
+                     //$('#sourceSelectPanel').html(buttonFront + buttonBack);
+                 } else {
+                     frontCam = videoInputDevices[0].deviceId;
+                     defaultCam = frontCam;
+                 }
+
+
+                 codeReader.decodeFromVideoDevice(defaultCam, 'video', async (result, err) => { 
+                     if (result) {
+                       const resultData = await goToScannedPage(result.text);
+                       console.log('decodeFromVideoDevice',resultData);
+                     }
+                     if (err && !(err instanceof ZXing.NotFoundException)) {
+                         console.error(err)
+                     }
+                 });     
+             });
+         </script>
+		</div>
+        	   
+    </div> 	
+  </body>
+  <script src="./asset/js/jquery.min.js"></script>
+  <script>
+    
+    const back = () => {
+	   window.open("./index.html","_self");
+    }
+        
+  </script>
+  </html>
+
+     
