@@ -7,6 +7,7 @@
 	<link rel="manifest" href="./asset/favicon/site.webmanifest">
 	<link rel="mask-icon" href="./asset/favicon/safari-pinned-tab.svg" color="#5bbad5">
 	<link href="./asset/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 </head>
 
 <body>
@@ -85,23 +86,19 @@
 					</td>
 				</tr>
 				<tr>
-					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept LQX
-							?</span></td>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept LQX ?</span></td>
 					<td class="right"><input type="checkbox" id="acceptLQX"></td>
 				</tr>
 				<tr>
-					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept Bitcoin
-							?</span></td>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept Bitcoin ?</span></td>
 					<td class="right"><input type="checkbox" id="acceptBTC"></td>
 				</tr>
 				<tr>
-					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept USDT
-							?</span></td>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept USDT ?</span></td>
 					<td class="right"><input type="checkbox" id="acceptUSDT"></td>
 				</tr>
 				<tr>
-					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept EURT
-							?</span></td>
+					<td><span style="color:white;font-family:Verdana, Geneva, sans-serif;font-size:12px">Accept EURT ?</span></td>
 					<td class="right"><input type="checkbox" id="acceptEURT"></td>
 				</tr>
 				<tr>
@@ -158,11 +155,15 @@
 				<td colspan="4"><input class="button" type="button" style="width:222" onclick="generatePayment();" value="Generate payment"></td>
 			</tr>
 		</table>
+		<div id="modal" class="modal">
+			
+		</div>
 	</div>
 </body>
 <script src="./asset/js/jquery.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="./asset/js/jquery.maskMoney.min.js"></script>
 <script src="./asset/js/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <script src="./asset/js/LQXPay.js"></script>
 </html>

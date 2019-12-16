@@ -15,6 +15,7 @@ const isEmpty = (obj) => {
 }
 
 let payloadKit = {};
+let payments = [];
 
 const insert = (num) => {
     document.form.textview.value = document.form.textview.value + num;
@@ -100,18 +101,119 @@ const generatePayment = async () => {
 
         console.log('headers-->',JSON.stringify(headers));
 
-        const response = await axios.post('https://api.lqxpay.com/receipts/create', body, { headers: header });
-        console.log('tinnyResponse-->',JSON.stringify(response.data));
+        const axiosResponse = await axios.post('https://api.lqxpay.com/receipts/create', body, { headers: header });
+        console.log('tinnyResponse-->',JSON.stringify(axiosResponse.data.response.data));
 
-        if (tinnyResponse.error) {
-            alert('Error when create Receipt.');
+        const normalizeResponse = axiosResponse.data.response;
+
+        if (normalizeResponse.success == true) {
+
+            $("#modal").html(`<center><span style="font-family:Verdana, Geneva, sans-serif;font-size:40px">${normalizeResponse.data.trackId}</span></center>`);
+            
+            //console.log('headers-->',normalizeResponse.data.trackId);
+
+            //payments = await getObjectSession('paymentList');
+
+            //payments.push(normalizeResponse.data);
+
+            $("#modal").modal({
+                fadeDuration: 100
+            });
+
         } else {
-            console.log('tinnyResponse-->',JSON.stringify(response));
+            alert('Error on create Receipt.');
         }
 
     } catch (err) {
         alert( err.message);
     }
+}
+
+const generatePaymentForMulticard = async () => {
+    
+    return new Promise(async resolve => {
+        try {
+
+            const isPublic = false;
+            const acceptLQX = $('#acceptLQX').prop('checked');
+            const acceptBTC = $('#acceptBTC').prop('checked');
+            const acceptUSDT = $('#acceptUSDT').prop('checked');
+            const acceptEURT = $('#acceptEURT').prop('checked');
+            const acceptPaymentSlip = $('#acceptPaymentSlip').prop('checked');
+            const isRecurring = false;
+            const typeSelect = $("#typeSelect option:selected").val();
+            const currencySelect = 'usd';
+            const name = $('#name').val();
+            const amount = $('#amount').val();
+            const desc = $('#description').val();
+            const img = $('#img').val();
+            const price = $('#totalAmount').val();
+            const to = $('#to').val();
+            let qty = 1;
+            const side = 'SELL';
+            const token = await getSession('token');
+    
+            if (!$.trim(typeSelect)) {
+                alert('Please add the type of this receipt.');
+                resolve(false);
+            }
+    
+            if (!$.trim(currencySelect)) {
+                alert('We need to get the coin that you is using.');
+                resolve(false);
+            }
+    
+            if (typeSelect === 'Exchange' && !$.trim(amount)) {
+                alert('For Exchange type we need the amount.');
+                resolve(false);;
+            }
+    
+            if (!$.trim(name)) {
+                alert('Name is required.');
+                resolve(false);
+            }
+    
+            const body = {
+                name,
+                type: typeSelect,
+                imgUrl: img,
+                price: parseFloat(price.replace(/,/g, '')),
+                to,
+                currency: currencySelect,
+                description: desc,
+                isRecurring,
+                qty: parseFloat(qty),
+                isPublic,
+                acceptBTC,
+                acceptLQX,
+                acceptUSDT,
+                acceptEURT,
+                amount,
+                side,
+            }
+    
+            const header = {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+
+            const axiosResponse = await axios.post('https://api.lqxpay.com/receipts/create', body, { headers: header });
+            
+            const normalizeResponse = axiosResponse.data.response;
+    
+            if (normalizeResponse.success == true) {
+                resolve(normalizeResponse.data.trackId);
+            } else {
+                resolve(false);
+            }
+    
+        } catch (err) {
+            resolve(false);
+        }
+    });
+    
 }
 
 const login = async () => {
@@ -178,9 +280,15 @@ const logout = async () => {
     await setObjectSession('payloadKit', null);
 }
 
+const refreshPaymentList = async () => {
+    payments = await getObjectSession('paymentList');
+    
+}
+
 const checkPayload = async () => {
 
     payloadKit = await getObjectSession('payloadKit');
+    payments = await getObjectSession('paymentList');
 
     if (!isEmpty(payloadKit)) {
 
@@ -194,8 +302,14 @@ const checkPayload = async () => {
 
 }
 
-const openScanMultiCard = () => {
-    window.open("./scan.html");
+const openScanMultiCard = async () => {
+    const trackId = await generatePaymentForMulticard();
+    if(trackId == false) {
+        alert('Error');
+    } else {
+        await setSession('multicardTrackId', trackId);
+        window.open("./scan.html");
+    }
 }
 
 (async () => {

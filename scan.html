@@ -103,8 +103,11 @@
 
                  codeReader.decodeFromVideoDevice(defaultCam, 'video', async (result, err) => { 
                      if (result) {
-                       const resultData = await goToScannedPage(result.text);
-                       console.log('decodeFromVideoDevice',resultData);
+                      
+					   console.log('decodeFromVideoDevice',result.text);
+
+					   const trackId = await getSession('multicardTrackId');
+					   window.open(`https://bo.lqxpay.com/multicard/${result.text}/${trackId}`);
                      }
                      if (err && !(err instanceof ZXing.NotFoundException)) {
                          console.error(err)
@@ -117,6 +120,7 @@
     </div> 	
   </body>
   <script src="./asset/js/jquery.min.js"></script>
+  <script src="./asset/js/LQXPay.js"></script>
   <script>
     
     const back = () => {
